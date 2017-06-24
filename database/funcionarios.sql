@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.4
 -- Dumped by pg_dump version 9.5.4
 
--- Started on 2017-06-24 15:37:52 BRT
+-- Started on 2017-06-24 16:11:46 BRT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,7 +39,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 181 (class 1259 OID 16393)
+-- TOC entry 181 (class 1259 OID 16401)
 -- Name: funcionarios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -55,20 +55,18 @@ CREATE TABLE funcionarios (
 ALTER TABLE funcionarios OWNER TO postgres;
 
 --
--- TOC entry 2135 (class 0 OID 16393)
+-- TOC entry 2135 (class 0 OID 16401)
 -- Dependencies: 181
 -- Data for Name: funcionarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY funcionarios (nome, cpf, email, nascimento, telefone) FROM stdin;
-Gabriel	12345678910	gabriel@gmail.com	1994-05-06	6299991234
-Paulo	12345678911	paulo@gmail.com	1995-10-10	6299991235
-Thiago	12345678912	thiago@gmail.com	1994-02-10	6299991236
-\.
+INSERT INTO funcionarios VALUES ('Gabriel', '12345678910', 'gabriel@gmail.com', '1994-05-06', '6299991234');
+INSERT INTO funcionarios VALUES ('Paulo', '12345678911', 'paulo@gmail.com', '1995-10-10', '6299991235');
+INSERT INTO funcionarios VALUES ('Thiago', '12345678912', 'thiago@gmail.com', '1994-02-10', '6299991236');
 
 
 --
--- TOC entry 2020 (class 2606 OID 16397)
+-- TOC entry 2020 (class 2606 OID 16405)
 -- Name: cpf; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -78,7 +76,7 @@ ALTER TABLE ONLY funcionarios
 
 --
 -- TOC entry 2142 (class 0 OID 0)
--- Dependencies: 6
+-- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -88,7 +86,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-06-24 15:37:52 BRT
+-- Completed on 2017-06-24 16:11:46 BRT
 
 --
 -- PostgreSQL database dump complete
