@@ -13,11 +13,10 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- TOC entry 1 (class 3079 OID 12397)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
@@ -26,7 +25,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 -- TOC entry 2143 (class 0 OID 0)
 -- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -44,7 +43,8 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE funcionarios (
-    nome character varying(30),
+    id serial NOT NULL,
+    nome character varying(30) NOT NULL,
     cpf character varying(14) NOT NULL,
     email character varying(35),
     nascimento date,
@@ -60,9 +60,9 @@ ALTER TABLE funcionarios OWNER TO postgres;
 -- Data for Name: funcionarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO funcionarios VALUES ('Gabriel', '12345678910', 'gabriel@gmail.com', '1994-05-06', '6299991234');
-INSERT INTO funcionarios VALUES ('Paulo', '12345678911', 'paulo@gmail.com', '1995-10-10', '6299991235');
-INSERT INTO funcionarios VALUES ('Thiago', '12345678912', 'thiago@gmail.com', '1994-02-10', '6299991236');
+INSERT INTO funcionarios (nome, cpf, email, nascimento, telefone) VALUES ('Gabriel', '123.456.789-10', 'gabriel@gmail.com', '1994-05-06', '6299991234');
+INSERT INTO funcionarios (nome, cpf, email, nascimento, telefone) VALUES ('Paulo', '123.456.789-11', 'paulo@gmail.com', '1995-10-10', '6299991235');
+INSERT INTO funcionarios (nome, cpf, email, nascimento, telefone) VALUES ('Thiago', '123.456.789-12', 'thiago@gmail.com', '1994-02-10', '6299991236');
 
 
 --
@@ -71,7 +71,7 @@ INSERT INTO funcionarios VALUES ('Thiago', '12345678912', 'thiago@gmail.com', '1
 --
 
 ALTER TABLE ONLY funcionarios
-    ADD CONSTRAINT cpf PRIMARY KEY (cpf);
+    ADD CONSTRAINT id PRIMARY KEY (id);
 
 
 --
