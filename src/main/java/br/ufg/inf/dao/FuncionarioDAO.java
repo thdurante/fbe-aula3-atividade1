@@ -2,10 +2,7 @@ package br.ufg.inf.dao;
 
 import br.ufg.inf.dto.FuncionarioDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FuncionarioDAO {
@@ -74,5 +71,31 @@ public class FuncionarioDAO {
         }
 
         return funcionario;
+    }
+
+    public boolean addFuncionario(FuncionarioDTO funcionario) {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO funcionarios (nome, cpf, email, nascimento, telefone) VALUES (?, ?, ?, ?, ?)";
+
+        if (funcionario == null) return false;
+
+        try {
+            ps = this.connection.prepareStatement(sql);
+            ps.setString(1, funcionario.getNome());
+            ps.setString(2, funcionario.getCpf());
+            ps.setString(3, funcionario.getEmail());
+            ps.setDate(4, new Date(funcionario.getNascimento().getTime()));
+            ps.setString(5, funcionario.getTelefone());
+
+            ps.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { this.connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+
+        return true;
     }
 }

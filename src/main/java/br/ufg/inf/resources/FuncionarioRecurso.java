@@ -4,10 +4,7 @@ import br.ufg.inf.dao.FuncionarioDAO;
 import br.ufg.inf.dto.FuncionarioDTO;
 import com.google.gson.Gson;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 
 @Path("funcionarios")
@@ -42,5 +39,26 @@ public class FuncionarioRecurso {
             e.printStackTrace();
         }
         return funcionarioJSON;
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json; charset=utf-8")
+    public String addFuncionario(String funcionarioJSON) {
+        boolean result = false;
+        FuncionarioDTO funcionario;
+        Gson gson = new Gson();
+
+        try {
+            funcionario = gson.fromJson(funcionarioJSON, FuncionarioDTO.class);
+            result = new FuncionarioDAO().addFuncionario(funcionario);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if (result)
+            return funcionarioJSON;
+        else
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível inserir o funcionário na base de dados!\" }}";
     }
 }
