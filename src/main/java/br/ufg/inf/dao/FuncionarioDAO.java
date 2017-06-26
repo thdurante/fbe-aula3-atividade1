@@ -127,4 +127,25 @@ public class FuncionarioDAO {
 
         return true;
     }
+
+    public boolean deleteFuncionario(Integer id) {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM funcionarios WHERE id=?";
+
+        if (id == 0 || id == null) return false;
+
+        try {
+            ps = this.connection.prepareStatement(sql);
+            ps.setInt(1, id.intValue());
+            ps.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { this.connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+
+        return true;
+    }
 }

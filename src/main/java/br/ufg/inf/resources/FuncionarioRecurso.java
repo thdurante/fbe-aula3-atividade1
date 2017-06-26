@@ -96,4 +96,23 @@ public class FuncionarioRecurso {
         else
             return "{ \"erro\": { \"mensagem\": \"Não foi possível atualizar o funcionário na base de dados!\" }}";
     }
+
+    // DELETE http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/1
+    @Path("{id}")
+    @DELETE
+    @Produces("application/json; charset=utf-8")
+    public String deleteFuncionario(@PathParam("id") String id) {
+        boolean result = false;
+
+        try {
+            result = new FuncionarioDAO().deleteFuncionario(Integer.parseInt(id));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if (result)
+            return "{ \"sucesso\": { \"mensagem\": \"Funcionário excluido com sucesso!\" }}";
+        else
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível excluir o funcionário da base de dados!\" }}";
+    }
 }
