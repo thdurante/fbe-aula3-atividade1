@@ -10,21 +10,26 @@ import java.util.ArrayList;
 @Path("funcionarios")
 public class FuncionarioRecurso {
 
+    // GET http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios
     @GET
     @Produces("application/json; charset=utf-8")
     public String getFuncionarios() {
-        String funcionarios = null;
+        String funcionariosJSON = null;
         ArrayList<FuncionarioDTO> funcionariosLista = new FuncionarioDAO().getFuncionarios();
         Gson gson = new Gson();
 
+        if(funcionariosLista == null)
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar a lista de funcionários da base de dados!\" }}";
+
         try {
-            funcionarios = gson.toJson(funcionariosLista);
+            funcionariosJSON = gson.toJson(funcionariosLista);
         } catch(Exception e){
             e.printStackTrace();
         }
-        return funcionarios;
+        return funcionariosJSON;
     }
 
+    // GET http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/1
     @Path("{id}")
     @GET
     @Produces("application/json; charset=utf-8")
@@ -41,6 +46,7 @@ public class FuncionarioRecurso {
         return funcionarioJSON;
     }
 
+    // POST http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios
     @POST
     @Consumes("application/json")
     @Produces("application/json; charset=utf-8")
@@ -60,5 +66,34 @@ public class FuncionarioRecurso {
             return funcionarioJSON;
         else
             return "{ \"erro\": { \"mensagem\": \"Não foi possível inserir o funcionário na base de dados!\" }}";
+    }
+
+    // PUT http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/1
+    @Path("{id}")
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json; charset=utf-8")
+    public String updateFuncionario(@PathParam("id") String id, String funcionarioJSON) {
+        boolean result = false;
+        FuncionarioDTO funcionario;
+        Gson gson = new Gson();
+
+        if(id == null || id.equals(""))
+            return "{ \"erro\": { \"mensagem\": \"Não existe um funcionário com o id especificado!\" }}";
+
+        if(funcionarioJSON == null || funcionarioJSON.equals(""))
+            return "{ \"erro\": { \"mensagem\": \"Por favor, informe o objeto para update!\" }}";
+
+        try {
+            funcionario = gson.fromJson(funcionarioJSON, FuncionarioDTO.class);
+            result = new FuncionarioDAO().updateFuncionario(Integer.parseInt(id), funcionario);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if (result)
+            return funcionarioJSON;
+        else
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível atualizar o funcionário na base de dados!\" }}";
     }
 }

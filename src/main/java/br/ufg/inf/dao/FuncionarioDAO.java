@@ -33,6 +33,7 @@ public class FuncionarioDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -64,6 +65,7 @@ public class FuncionarioDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -86,6 +88,33 @@ public class FuncionarioDAO {
             ps.setString(3, funcionario.getEmail());
             ps.setDate(4, new Date(funcionario.getNascimento().getTime()));
             ps.setString(5, funcionario.getTelefone());
+
+            ps.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { this.connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+
+        return true;
+    }
+
+    public boolean updateFuncionario(Integer id, FuncionarioDTO funcionario) {
+        PreparedStatement ps = null;
+        String sql = "UPDATE funcionarios SET nome=?, cpf=?, email=?, nascimento=?, telefone=? WHERE id=?";
+
+        if (funcionario == null) return false;
+
+        try {
+            ps = this.connection.prepareStatement(sql);
+            ps.setString(1, funcionario.getNome());
+            ps.setString(2, funcionario.getCpf());
+            ps.setString(3, funcionario.getEmail());
+            ps.setDate(4, new Date(funcionario.getNascimento().getTime()));
+            ps.setString(5, funcionario.getTelefone());
+            ps.setInt(6, id);
 
             ps.executeUpdate();
         } catch (SQLException e){
