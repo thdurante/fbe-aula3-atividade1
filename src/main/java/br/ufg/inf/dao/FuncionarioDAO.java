@@ -44,4 +44,35 @@ public class FuncionarioDAO {
 
         return funcionariosLista;
     }
+
+    public FuncionarioDTO getFuncionario(Integer id) {
+        FuncionarioDTO funcionario = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        if (id == 0 || id == null) return null;
+
+        try {
+            ps = this.connection.prepareStatement("SELECT * FROM funcionarios WHERE id = ?");
+            ps.setInt(1, id.intValue());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                funcionario = new FuncionarioDTO(
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getDate("nascimento"),
+                        rs.getString("telefone")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { this.connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+
+        return funcionario;
+    }
 }
