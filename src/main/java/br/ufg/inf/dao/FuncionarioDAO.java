@@ -148,4 +148,36 @@ public class FuncionarioDAO {
 
         return true;
     }
+
+    public FuncionarioDTO getFuncionarioPorCpf(String cpf) {
+        FuncionarioDTO funcionario = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        if (cpf == null || cpf.equals("")) return null;
+
+        try {
+            ps = this.connection.prepareStatement("SELECT * FROM funcionarios WHERE cpf = ?");
+            ps.setString(1, cpf);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                funcionario = new FuncionarioDTO(
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("email"),
+                        rs.getDate("nascimento"),
+                        rs.getString("telefone")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (ps != null) ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { this.connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+
+        return funcionario;
+    }
 }

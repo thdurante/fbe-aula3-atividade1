@@ -11,22 +11,34 @@ import java.util.ArrayList;
 public class FuncionarioRecurso {
 
     // GET http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios
+    // GET http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios?cpf=123.456.789-10
     @GET
     @Produces("application/json; charset=utf-8")
-    public String getFuncionarios() {
-        String funcionariosJSON = null;
-        ArrayList<FuncionarioDTO> funcionariosLista = new FuncionarioDAO().getFuncionarios();
+    public String getFuncionarios(@QueryParam("cpf") String cpf) {
+        String resultJSON = null;
         Gson gson = new Gson();
+        ArrayList<FuncionarioDTO> funcionariosLista = null;
+        FuncionarioDTO funcionario = null;
 
-        if(funcionariosLista == null)
-            return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar a lista de funcionários da base de dados!\" }}";
+        if (cpf == null || cpf.equals("")) {
+             funcionariosLista = new FuncionarioDAO().getFuncionarios();
+            if(funcionariosLista == null)
+                return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar a lista de funcionários da base de dados!\" }}";
+        } else {
+            funcionario = new FuncionarioDAO().getFuncionarioPorCpf(cpf);
+            if(funcionario == null)
+                return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar o funcionário com o CPF informado!\" }}";
+        }
 
         try {
-            funcionariosJSON = gson.toJson(funcionariosLista);
+            resultJSON = (cpf == null || cpf.equals("")) ?
+                    gson.toJson(funcionariosLista) :
+                    gson.toJson(funcionario);
         } catch(Exception e){
             e.printStackTrace();
         }
-        return funcionariosJSON;
+
+        return resultJSON;
     }
 
     // GET http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/1
