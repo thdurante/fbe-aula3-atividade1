@@ -23,6 +23,7 @@ public class FuncionarioDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 FuncionarioDTO funcionario = new FuncionarioDTO(
+                        rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("cpf"),
                         rs.getString("email"),
@@ -56,6 +57,7 @@ public class FuncionarioDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 funcionario = new FuncionarioDTO(
+                        rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("cpf"),
                         rs.getString("email"),
@@ -162,6 +164,7 @@ public class FuncionarioDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 funcionario = new FuncionarioDTO(
+                        rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("cpf"),
                         rs.getString("email"),

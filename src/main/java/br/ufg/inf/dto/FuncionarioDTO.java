@@ -4,13 +4,15 @@ import java.util.Date;
 
 public class FuncionarioDTO {
 
+    Integer id;
     String nome;
     String cpf;
     String email;
     Date nascimento;
     String telefone;
 
-    public FuncionarioDTO(String nome, String cpf, String email, Date nascimento, String telefone) {
+    public FuncionarioDTO(Integer id, String nome, String cpf, String email, Date nascimento, String telefone) {
+        this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
@@ -56,5 +58,13 @@ public class FuncionarioDTO {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
