@@ -50,9 +50,19 @@ public class FuncionarioRecurso implements ContainerResponseFilter {
     @GET
     @Produces("application/json; charset=utf-8")
     public String getFuncionario(@PathParam("id") String id) {
-        FuncionarioDTO funcionario = new FuncionarioDAO().getFuncionario(Integer.parseInt(id));
+        FuncionarioDTO funcionario = null;
         String funcionarioJSON = null;
         Gson gson = new Gson();
+
+        try {
+            funcionario = new FuncionarioDAO().getFuncionario(Integer.parseInt(id));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar o funcionário com o ID informado!\" }}";
+        }
+
+        if(funcionario == null)
+            return "{ \"erro\": { \"mensagem\": \"Não foi possível recuperar o funcionário com o ID informado!\" }}";
 
         try {
             funcionarioJSON = gson.toJson(funcionario);
