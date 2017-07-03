@@ -45,8 +45,8 @@ public class ConnectionManager {
 2. Gere o arquivo `.war`:
     ```
     Na pasta raiz do projeto:
-    $ gradle clean
-    $ gradle war
+    $ ./gradlew clean
+    $ ./gradlew war
     ```
 3. Copie o arquivo `build/libs/fbe-aula3-atividade1-1.0-SNAPSHOT.war` gerado no passo anterior para `[glassfish-installation-directory]/domains/domain1/autodeploy`.
 4. Faça o [deploy](https://dzone.com/articles/how-deploy-war-file-using) do arquivo `.war` com o glassfish:
@@ -55,4 +55,4 @@ public class ConnectionManager {
     $ bin/asadmin
     $ start-domain domain1
     ```
-5. Para verificar se está funcionando, abra no navegador: `http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/`
+5. Para verificar se está funcionando, abra no navegador: `http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/` (deverá aparecer a mensagem `It works!`)
