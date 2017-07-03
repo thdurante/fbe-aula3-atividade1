@@ -3,6 +3,7 @@ package br.ufg.inf.resources;
 import br.ufg.inf.dao.FuncionarioDAO;
 import br.ufg.inf.dto.FuncionarioDTO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -52,7 +53,7 @@ public class FuncionarioRecurso implements ContainerResponseFilter {
     public String getFuncionario(@PathParam("id") String id) {
         FuncionarioDTO funcionario = null;
         String funcionarioJSON = null;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
         try {
             funcionario = new FuncionarioDAO().getFuncionario(Integer.parseInt(id));
@@ -79,7 +80,7 @@ public class FuncionarioRecurso implements ContainerResponseFilter {
     public String addFuncionario(String funcionarioJSON) {
         boolean result = false;
         FuncionarioDTO funcionario;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
         try {
             funcionario = gson.fromJson(funcionarioJSON, FuncionarioDTO.class);
@@ -102,7 +103,7 @@ public class FuncionarioRecurso implements ContainerResponseFilter {
     public String updateFuncionario(@PathParam("id") String id, String funcionarioJSON) {
         boolean result = false;
         FuncionarioDTO funcionario;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
         if(id == null || id.equals(""))
             return "{ \"erro\": { \"mensagem\": \"Não existe um funcionário com o id especificado!\" }}";
